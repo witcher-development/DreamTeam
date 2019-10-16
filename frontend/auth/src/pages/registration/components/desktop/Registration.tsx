@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
-import { injectIntl, InjectedIntl } from "react-intl";
-import { Column, Layout, Row } from "@ui/layout";
-import { Text } from "@ui/text";
-import { Input } from "@ui/input";
-import { Button } from "@ui/button";
-import { RouteLink } from "@ui/link";
-import messages from "../../messages";
+import React, { useEffect } from 'react'
+import { injectIntl, InjectedIntl } from 'react-intl'
+import { Column, Layout, Row } from '@ui/layout'
+import { Text } from '@ui/text'
+import { Input } from '@ui/input'
+import { Button } from '@ui/button'
+import { RouteLink } from '@ui/link'
+import messages from '../../messages'
+import Error from '@frontend/auth/src/components/Error'
 
 interface Props {
-  intl: InjectedIntl;
+  intl: InjectedIntl
 }
 
 const Registration = ({
@@ -20,32 +21,32 @@ const Registration = ({
   onChangeConfirmPassword,
   onChangeEmail,
   onChangePassword,
-  onRegister
+  onRegister,
 }: Props) => {
   useEffect(() => {
-    console.log('component: ', email);
-  }, [email]);
+    console.log('component: ', email)
+  }, [email])
 
   return (
-    <Column align="center">
+    <Column align='center'>
       <Layout basis={60} />
-      <Text size="2xl" height="xs" weight="bold">
+      <Text size='2xl' height='xs' weight='bold'>
         {intl.formatMessage(messages.registration)}
       </Text>
       <Layout basis={40} />
-      <Row justify="center">
+      <Row justify='center'>
         <Layout basis={360}>
-          <Text size="s" weight="bold" transform="uppercase">
+          <Text size='s' weight='bold' transform='uppercase'>
             {intl.formatMessage(messages.mail)}
           </Text>
         </Layout>
       </Row>
       <Layout basis={12} />
-      <Row justify="center">
+      <Row justify='center'>
         <Layout basis={360}>
           <Input
-            type="email"
-            border="lightGray"
+            type='email'
+            border='lightGray'
             error={errors.email}
             value={email}
             onChange={onChangeEmail}
@@ -53,20 +54,29 @@ const Registration = ({
           />
         </Layout>
       </Row>
-      <Layout basis={24} />
-      <Row justify="center">
+      <Row justify='center'>
         <Layout basis={360}>
-          <Text size="s" weight="bold" transform="uppercase">
+          {errors.email && (
+            <Error>
+              {errors.email}
+            </Error>
+          )}
+        </Layout>
+      </Row>
+      <Layout basis={24} />
+      <Row justify='center'>
+        <Layout basis={360}>
+          <Text size='s' weight='bold' transform='uppercase'>
             {intl.formatMessage(messages.password)}
           </Text>
         </Layout>
       </Row>
       <Layout basis={12} />
-      <Row justify="center">
+      <Row justify='center'>
         <Layout basis={360}>
           <Input
-            type="password"
-            border="lightGray"
+            type='password'
+            border='lightGray'
             error={errors.password}
             value={password}
             onEnter={onRegister}
@@ -75,12 +85,21 @@ const Registration = ({
           />
         </Layout>
       </Row>
+      <Row justify='center'>
+        <Layout basis={360}>
+          {errors.password && (
+            <Error>
+              {errors.password}
+            </Error>
+          )}
+        </Layout>
+      </Row>
       <Layout basis={12} />
-      <Row justify="center">
+      <Row justify='center'>
         <Layout basis={360}>
           <Input
-            type="password"
-            border="lightGray"
+            type='password'
+            border='lightGray'
             error={password !== confirmPassword}
             value={confirmPassword}
             onEnter={onRegister}
@@ -89,8 +108,17 @@ const Registration = ({
           />
         </Layout>
       </Row>
+      <Row justify='center'>
+        <Layout basis={360}>
+          {password !== confirmPassword && (
+            <Error>
+              {intl.formatMessage(messages.repeatPassword)}
+            </Error>
+          )}
+        </Layout>
+      </Row>
       <Layout basis={24} />
-      <Row justify="center">
+      <Row justify='center'>
         <Layout basis={360}>
           <Button
             text
@@ -103,17 +131,17 @@ const Registration = ({
       </Row>
       <Layout basis={16} />
       <RouteLink
-        to="/auth"
-        size="s"
-        height="xs"
-        weight="medium"
-        color="black"
-        hoverColor="blueBayoux"
+        to='/auth'
+        size='s'
+        height='xs'
+        weight='medium'
+        color='black'
+        hoverColor='blueBayoux'
       >
         {intl.formatMessage(messages.login)}
       </RouteLink>
     </Column>
-  );
-};
+  )
+}
 
-export default injectIntl(Registration);
+export default injectIntl(Registration)

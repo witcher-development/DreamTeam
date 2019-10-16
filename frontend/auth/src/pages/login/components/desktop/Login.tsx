@@ -6,6 +6,7 @@ import { Input } from '@ui/input'
 import { Button } from '@ui/button'
 import { RouteLink } from '@ui/link'
 import messages from '../../messages'
+import Error from '@frontend/auth/src/components/Error'
 
 interface Props {
   intl: InjectedIntl
@@ -46,6 +47,15 @@ const Login: FC<Props> = ({
         />
       </Layout>
     </Row>
+    <Row justify='center'>
+      <Layout basis={360}>
+        {errors.email && (
+          <Error>
+            {errors.email}
+          </Error>
+        )}
+      </Layout>
+    </Row>
     <Layout basis={24} />
     <Row justify='center'>
       <Layout basis={360}>
@@ -66,6 +76,15 @@ const Login: FC<Props> = ({
           onChange={onChangePassword}
           placeholder={intl.formatMessage(messages.enterPassword)}
         />
+      </Layout>
+    </Row>
+    <Row justify='center'>
+      <Layout basis={360}>
+        {errors.password && (
+          <Error>
+            {errors.password}
+          </Error>
+        )}
       </Layout>
     </Row>
     <Layout basis={24} />

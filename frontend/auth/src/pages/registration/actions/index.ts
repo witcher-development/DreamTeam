@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import { login } from '@frontend/auth/src/pages/login/actions/'
 import * as actions from '../constants'
 
 export const change = (field, value) => ({
@@ -35,9 +36,7 @@ export const register = () => async (dispatch, getState, client) => {
       errors: data.register.errors,
     })
   } else {
-    dispatch({
-      type: actions.clear,
-    })
+    dispatch(login({ email, password }))
   }
 }
 

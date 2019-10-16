@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import { auth } from '@frontend/common/src/constants/security'
+import { authAction } from '@frontend/common/src/actions/security'
 import * as actions from '../constants'
 import stub from './stub'
 
@@ -9,8 +10,21 @@ export const change = (field, value) => ({
   value,
 })
 
-export const login = () => async (dispatch, getState, client) => {
-  const { email, password } = getState().auth.login
+export const login = (afterRegister = undefined) => async (
+  dispatch,
+  getState,
+  client,
+) => {
+  let email
+  let password
+
+  if (afterRegister) {
+    email = afterRegister.email
+    password = afterRegister.password
+  } else {
+    email = getState().auth.login.email
+    password = getState().auth.login.password
+  }
 
   try {
     const { data } = await client.query({
@@ -34,15 +48,17 @@ export const login = () => async (dispatch, getState, client) => {
         password,
       },
     })
+
+    if (data.login.errors) {
+      throw data.login.errors
+    }
+
+    dispatch(authAction(data.login.token))
   } catch (e) {
     dispatch({
-      type: auth,
-      token: stub.token,
-      expiresIn: stub.expiresIn,
+      type: actions.setErrors,
+      errors: e,
     })
-
-    dispatch({
-      type: actions.clear,
-    })
+    console.log(getState().auth.login)
   }
 }
