@@ -13,7 +13,10 @@ const reducer = createReducer(initialState, {
     token,
     expiresIn,
   }),
-  [actions.logout]: () => initialState,
+  [actions.logout]: () => {
+    console.log('logout')
+    return initialState
+  },
 })
 
 export default persistReducer(

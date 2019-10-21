@@ -1,6 +1,5 @@
 import gql from 'graphql-tag'
-import { auth } from '@frontend/common/src/constants/security'
-import { authAction } from '@frontend/common/src/actions/security'
+import { auth } from '@frontend/common/src/actions/security'
 import * as actions from '../constants'
 import stub from './stub'
 
@@ -53,12 +52,11 @@ export const login = (afterRegister = undefined) => async (
       throw data.login.errors
     }
 
-    dispatch(authAction(data.login.token))
+    dispatch(auth(data.login.token))
   } catch (e) {
     dispatch({
       type: actions.setErrors,
       errors: e,
     })
-    console.log(getState().auth.login)
   }
 }

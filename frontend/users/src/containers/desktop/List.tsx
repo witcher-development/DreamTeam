@@ -15,5 +15,5 @@ export default connect(
   }),
   dispatch => ({
     onLoad: () => dispatch(load()),
-  })
+  }),
 )(enhance(List))
