@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { injectIntl, InjectedIntl } from 'react-intl'
 import { Column, Layout, Row } from '@ui/layout'
 import { Space, Text } from '@ui/text'
@@ -11,27 +11,58 @@ interface Props {
 
 const columns = [
   {
+    key: 'name',
     title: messages.name,
     width: 300,
   },
   {
+    key: 'email',
     title: messages.email,
     width: 200,
   },
   {
+    key: 'registeredAt',
     title: messages.registered,
     width: 180,
   },
   {
+    key: 'lastLogonAt',
     title: messages.lastLogin,
     width: 160,
   },
 ]
 
 const List = ({ rows, intl }: Props) => {
+  const [options] = useState(
+    columns.map(column => ({
+      name: intl.formatMessage(column.title),
+      value: column.key,
+    })),
+  )
+  const [currentFilter, setFilter] = useState(options[0].value)
+  const [filteredRows, setRows] = useState([])
 
-  const [options] = useState(columns.map(column => intl.formatMessage(column.title)))
-  const [currentFilter, setFilter] = useState(options[0])
+  useEffect(() => {
+    if (!rows.length) { return }
+
+    let data = rows
+    if (currentFilter === 'name') {
+      data = rows.map(row => ({
+        ...row,
+        name: row.profile ? row.profile.firstName : '',
+      }))
+    }
+
+    const filtered = data.sort((a, b) => {
+      if (a[currentFilter] > b[currentFilter]) {
+        return 1
+      } else {
+        return -1
+      }
+    })
+
+    setRows(filtered)
+  }, [rows, currentFilter])
 
   return (
     <Column>
@@ -46,7 +77,11 @@ const List = ({ rows, intl }: Props) => {
       <Layout basis={20} />
       <Row>
         <Layout basis='10%' />
-        <Filter options={options} current={currentFilter} onChange={setFilter} />
+        <Filter
+          options={options}
+          current={currentFilter}
+          onChange={setFilter}
+        />
         <Layout basis='10%' />
       </Row>
       <Layout basis={20} />
@@ -54,7 +89,6 @@ const List = ({ rows, intl }: Props) => {
         <Layout basis='10%' />
         {columns.map((column, i) => (
           <Layout basis={column.width} key={i}>
-            <Layout basis={8} />
             <Text size='s' weight='bold' transform='uppercase'>
               {intl.formatMessage(column.title)}
             </Text>
@@ -63,7 +97,7 @@ const List = ({ rows, intl }: Props) => {
         <Layout basis='10%' />
       </Row>
       <Layout basis={8} />
-      {rows.map(({ id, profile, email, registeredAt, lastLogonAt }) => (
+      {filteredRows.map(({ id, profile, email, registeredAt, lastLogonAt }) => (
         <Fragment key={id}>
           <Row>
             <Layout basis='10%' />

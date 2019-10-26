@@ -21,7 +21,8 @@ interface Props {
 const Profile = ({ profile, setProfile, updateProfile, intl }: Props) => (
   <Column>
     <Layout basis={60} />
-    <Row justify='center'>
+    <Row>
+      <Layout basis='10%' />
       <Layout basis={360}>
         <Text size='s' weight='bold' transform='uppercase'>
           {intl.formatMessage(messages.firstName)}
@@ -29,7 +30,8 @@ const Profile = ({ profile, setProfile, updateProfile, intl }: Props) => (
       </Layout>
     </Row>
     <Layout basis={12} />
-    <Row justify='center'>
+    <Row>
+      <Layout basis='10%' />
       <Layout basis={360}>
         <Input
           type='email'
@@ -41,7 +43,8 @@ const Profile = ({ profile, setProfile, updateProfile, intl }: Props) => (
       </Layout>
     </Row>
     <Layout basis={24} />
-    <Row justify='center'>
+    <Row>
+      <Layout basis='10%' />
       <Layout basis={360}>
         <Text size='s' weight='bold' transform='uppercase'>
           {intl.formatMessage(messages.lastName)}
@@ -49,7 +52,8 @@ const Profile = ({ profile, setProfile, updateProfile, intl }: Props) => (
       </Layout>
     </Row>
     <Layout basis={12} />
-    <Row justify='center'>
+    <Row>
+      <Layout basis='10%' />
       <Layout basis={360}>
         <Input
           type='password'
@@ -61,7 +65,8 @@ const Profile = ({ profile, setProfile, updateProfile, intl }: Props) => (
       </Layout>
     </Row>
     <Layout basis={24} />
-    <Row justify='center'>
+    <Row>
+      <Layout basis='10%' />
       <Layout basis={360}>
         <Button text disabled={!profile.firstName || !profile.lastName} onClick={updateProfile}>
           {intl.formatMessage(messages.update)}

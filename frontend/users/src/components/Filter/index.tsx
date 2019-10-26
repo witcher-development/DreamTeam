@@ -2,8 +2,13 @@ import React from 'react'
 
 import './Filter.css'
 
+interface Option {
+  name: string
+  value: string
+}
+
 interface Props {
-  options: string[]
+  options: Option[]
   current: string
   onChange: (value: string) => void
 }
@@ -11,9 +16,9 @@ interface Props {
 const MyComponent = ({options, current, onChange}: Props) => {
   return (
     <div className='filter'>
-      <select value={current} onChange={e => onChange(e.target.value)}>
-        {options.map(option => (
-          <option value={option} key={option}>{option}</option>
+      <select value={current} onInput={e => onChange(e.target.value)}>
+        {options.map(({ name, value }) => (
+          <option value={value} key={value}>{name}</option>
         ))}
       </select>
     </div>
